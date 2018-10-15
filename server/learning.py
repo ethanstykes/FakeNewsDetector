@@ -1,3 +1,5 @@
+import os
+script_dir = os.path.dirname(__file__)
 import pymysql
 def probMat(fileName):
     model={'W0rd1':['W0rd2','W0rd3']}
@@ -22,8 +24,8 @@ def probMat(fileName):
             word2=model[list(model.keys())[i]][k]
             probmat[((word1,word2))]+=1/lenofVals
     return probmat
-probmatFake=probMat("fakeNews.txt")
-probmatReal=probMat("realNews.txt")
+probmatFake=probMat(os.path.join(script_dir, "fakeNews.txt"))
+probmatReal=probMat(os.path.join(script_dir, "realNews.txt"))
 
 db = pymysql.connect("localhost","user","password","mysql")
 sql = "truncate table probmatreal"
