@@ -1,3 +1,5 @@
+import os
+script_dir = os.path.dirname(__file__)
 def probMat(fileName):
     model={'W0rd1':['W0rd2','W0rd3']}
     file_read=open(fileName,"r",encoding="utf-8")
@@ -24,12 +26,12 @@ def probMat(fileName):
                     word2=model[list(model.keys())[i]][k]
                     probmat[((word1,word2))]+=1/lenofVals
     return probmat 
-probmatFake=probMat("server/fakeNews.txt")
-probmatReal=probMat("server/realNews.txt")
+probmatFake=probMat(os.path.join(script_dir, "server/fakeNews.txt"))
+probmatReal=probMat(os.path.join(script_dir, "server/realNews.txt"))
 #print(probmatReal)
 probmatlimit=0
 def detectFake(key,probmatlimit):
-    fileName="testNews.txt"
+    fileName=os.path.join(script_dir, "testNews.txt")
     if key==0:
         probmat=probmatFake
     elif key==1:
@@ -51,9 +53,9 @@ Ffactor,probmatlimit=detectFake(0,probmatlimit)
 Rfactor,probmatlimit=detectFake(1,probmatlimit)
 print("F:",Ffactor)
 print("R:",Rfactor)
-if Ffactor>Rfactor:
+if Ffactor-1>Rfactor:
     print("This news is more likely fake")
-elif Ffactor<Rfactor:
+elif Ffactor+1<Rfactor:
     print("This news is probably real")
 else:
     print("Cannot determine")
